@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>WAYNOTE — Your Personal Travel Ticket Notebook</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--y:#F5C542;--dy:#E8AD24;--ink:#242424;--paper:#FFFDF5;--pp:#FFFDF5;--tx:#242424;--br:#8A795D;--gl:#2424241c;--gh:#24242445;--m:'DM Mono',ui-monospace,monospace;--s:'Playfair Display',Georgia,serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html.inv{--paper:#1b1a16;--pp:#262319;--tx:#F5C542;--br:#c9a43a;--gl:#F5C5421f;--gh:#F5C54250}
+*{box-sizing:border-box}
+html{background:var(--y);scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;overflow-x:hidden;color:var(--ink);font:15px/24px 'DM Sans',system-ui,sans-serif;background:linear-gradient(#2424240d 1px,#0000 1px) 0 0/24px 24px,linear-gradient(90deg,#2424240d 1px,#0000 1px) 0 0/24px 24px,var(--y)}
+h1,h2,h3{font-family:var(--s);margin:0}
+.sheet{position:relative;width:calc(100% - 28px);max-width:980px;margin:30px auto 64px;color:var(--tx);border:3px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:linear-gradient(var(--gl) 1px,#0000 1px) 0 0/24px 24px,linear-gradient(90deg,var(--gl) 1px,#0000 1px) 0 0/24px 24px,linear-gradient(var(--gh) 1px,#0000 1px) 0 0/120px 120px,linear-gradient(90deg,var(--gh) 1px,#0000 1px) 0 0/120px 120px,var(--paper)}
+.sheet:before{content:'';position:absolute;top:0;bottom:0;left:60px;width:2px;background:var(--tx)}
+.tape{position:absolute;z-index:3;top:4px;right:-40px;width:140px;height:26px;transform:rotate(38deg);border:2px solid var(--ink);background:repeating-linear-gradient(-45deg,var(--ink) 0 10px,var(--y) 10px 20px);pointer-events:none}
+.hd{position:relative;z-index:1;display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--y);color:var(--ink);border-bottom:3px solid var(--ink);padding:14px 70px 14px 84px}
+.lg{font:900 30px/1 var(--s);letter-spacing:.2em;cursor:pointer}
+.hd .b{margin-left:auto;background:var(--ink);color:var(--y)}
+.hd small,label,.sec,.stp div,.bd,.hint,.tab,.b,.x,.fo{font-family:var(--m);text-transform:uppercase;letter-spacing:.14em}
+.hd small{font-size:10px}
+label{display:block;font-size:10px;line-height:16px;opacity:.7}
+#app{position:relative;z-index:1;padding:40px 30px 48px 84px;min-height:60vh}
+.fo{position:relative;z-index:1;display:flex;gap:26px;flex-wrap:wrap;background:var(--ink);color:var(--y);font-size:11px;font-weight:500;padding:11px 30px 11px 84px;border-top:3px solid var(--ink)}
+html.inv .fo{border-top-color:var(--y)}
+.hero{padding:0 0 36px}.hero h1{font:900 clamp(34px,7vw,64px)/1.06 var(--s);margin:0 0 26px}.hero i{font-weight:500}
+.b{font-size:12px;font-weight:500;line-height:20px;padding:10px 18px;border:3px solid var(--ink);background:var(--y);color:var(--ink);cursor:pointer;border-radius:0;box-shadow:4px 4px 0 var(--ink)}
+.b:hover{background:#fff}.b:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.b.k{background:var(--ink);color:var(--y)}.b.k:hover{background:#000}.b.g{background:transparent;color:inherit;border-color:currentColor;box-shadow:none}.b.g:hover{background:#ffffff40}
+.sm{padding:5px 11px;font-size:11px;border-width:2px;box-shadow:3px 3px 0 var(--ink)}.sm.g{box-shadow:none}
+html.inv .b{box-shadow:4px 4px 0 #F5C54259}html.inv .b.g,html.inv .sm.g{box-shadow:none}html.inv .b.k{border-color:var(--y)}html.inv .hd .b{border-color:var(--ink)}
+.tab{font-size:11px;line-height:20px;padding:4px 12px;border:2px solid currentColor;background:transparent;color:inherit;cursor:pointer}
+.tab.on{background:var(--ink);color:var(--y);border-color:var(--ink)}
+html.inv .tab.on{background:var(--y);color:var(--ink);border-color:var(--y)}html .tk .tab.on{background:var(--ink);color:var(--y);border-color:var(--ink)}
+.bar{display:flex;gap:14px;flex-wrap:wrap;align-items:center}.bar>div{display:flex;gap:6px}
+.bar input{flex:1;min-width:200px;border:3px solid var(--tx);box-shadow:4px 4px 0 var(--tx);background:var(--pp);color:var(--tx);padding:7px 12px;font:14px/24px var(--m);outline:0;border-radius:0}
+.sec{font-size:10px;font-weight:500;margin:34px 0 18px;display:flex;gap:12px;align-items:center}.sec:after{content:'';flex:1;border-top:2px solid var(--tx)}
+.tk{position:relative;background:var(--y);color:var(--ink);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
+html.inv .tk{box-shadow:6px 6px 0 #F5C54259}
+.bd{background:var(--ink);color:var(--y);display:flex;justify-content:space-between;gap:10px;padding:8px 20px;font-size:11px;line-height:20px}
+.bp{padding:24px 26px}
+.nt:before,.nt:after,.perf:before,.perf:after{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:var(--paper);border:3px solid var(--ink);z-index:2}
+.d{--sw:134px;display:grid;grid-template-columns:1fr var(--sw);margin-bottom:34px}
+.d .bd{grid-column:1/-1}.d:before{top:-12px;left:calc(100% - var(--sw) - 11px);clip-path:inset(50% 0 0 0)}.d:after{bottom:-12px;left:calc(100% - var(--sw) - 11px);clip-path:inset(0 0 50% 0)}
+.d .m{border-right:2px dashed var(--ink);padding:20px 24px 18px}
+.s{background:#24242412;padding:16px 10px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;gap:8px}
+.s b{font:900 46px/1 var(--s)}.s span{font:500 11px var(--m);letter-spacing:.1em}
+.bc{display:block;width:100%;height:32px;fill:var(--ink)}
+.dn{filter:saturate(.4)}.stmp{position:absolute;right:calc(var(--sw) + 26px);bottom:20px;border:3px double var(--ink);padding:0 12px;font:700 22px/32px var(--s);letter-spacing:.2em;text-transform:uppercase;transform:rotate(-9deg);opacity:.5;pointer-events:none}
+.rr{display:flex;align-items:flex-end;gap:14px}.rr>div{min-width:0}
+.rr b{display:block;font:900 clamp(20px,4.5vw,32px)/1.1 var(--s);text-transform:uppercase;overflow-wrap:anywhere}
+.rr .ln{flex:1;min-width:28px;margin-bottom:10px;border-top:3px dotted var(--ink);position:relative}
+.rr .ln:after{content:'';position:absolute;right:-2px;top:-8px;border:6px solid transparent;border-left:9px solid var(--ink);border-right:0}
+.big b{font-size:clamp(28px,7vw,58px)}
+.ti{font:italic 500 16px var(--s);margin-top:8px}
+.ic4{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:12px;border-top:2px solid var(--ink);margin-top:16px;padding-top:10px}.ic4>div{font:500 14px var(--m)}
+.ac{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.empty{border:3px dashed var(--tx);padding:56px 20px;text-align:center;background:var(--paper)}.empty h3{font-size:24px;margin:10px 0 4px}.empty .ic{width:46px;height:46px}
+.ic{width:18px;height:18px;vertical-align:-4px;flex:none}
+.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));border-top:2px solid var(--ink);border-left:2px solid var(--ink)}
+.cells>div{border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:8px 12px 6px;min-width:0}
+.cells>div:focus-within{background:#FFFDF5}.cells .bad{background:#f0b8ad}.bad label{color:#8f1d10;opacity:1}.cells .full{grid-column:1/-1}
+input,textarea{width:100%;border:0;background:transparent;font:500 15px/24px var(--m);color:var(--ink);padding:0;outline:0;border-radius:0;resize:vertical;color-scheme:light}
+.wz h2{font-size:28px;line-height:34px;margin:0 0 6px}.sub{font:400 12px var(--m);opacity:.7;margin:0 0 18px}
+.stp{display:flex;border-bottom:3px solid var(--ink)}.stp div{flex:1;padding:8px 12px;font-size:10px;line-height:20px;border-right:2px solid var(--ink);opacity:.5}.stp div:last-child{border:0}.stp .on{background:#FFFDF5;opacity:1;font-weight:500}
+.sg{border:2px solid var(--ink);margin:18px 0;background:#ffffff26;overflow:hidden}
+.sh{display:flex;justify-content:space-between;align-items:center;background:var(--ink);color:var(--y);padding:6px 12px;font:400 11px/20px var(--m);letter-spacing:.14em;text-transform:uppercase}.sh .ic{margin-right:8px}
+.sg .cells{border:0;margin:0 -2px -2px 0}
+.x{background:none;border:0;color:var(--y);font-size:11px;cursor:pointer}
+.lc{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;font:400 11px var(--m);letter-spacing:.1em;text-transform:uppercase;border-top:2px solid var(--ink)}
+.hint{font-size:11px;margin:24px 0 8px;opacity:.75}
+.tp{display:grid;grid-template-columns:repeat(4,1fr);border:2px solid var(--ink)}
+.tc{border:0;border-right:2px solid var(--ink);background:transparent;padding:16px 4px;font:500 11px var(--m);letter-spacing:.08em;text-transform:uppercase;display:grid;justify-items:center;gap:8px;cursor:pointer;color:var(--ink)}.tc:last-child{border:0}.tc .ic{width:30px;height:30px}.tc:hover{background:var(--ink);color:var(--y)}
+.ft{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:30px;padding-top:22px;border-top:3px dashed var(--ink)}
+.perf{position:relative;height:0;border-top:3px dashed var(--ink);z-index:1}
+.perf:before{left:-12px;top:-11px;clip-path:inset(0 0 0 50%)}.perf:after{right:-12px;top:-11px;clip-path:inset(0 50% 0 0)}
+.r:before{left:-12px;top:6px;clip-path:inset(0 0 0 50%)}.r:after{right:-12px;top:6px;clip-path:inset(0 50% 0 0)}
+.pp{background:linear-gradient(var(--gl) 1px,#0000 1px) 0 0/24px 24px,linear-gradient(90deg,var(--gl) 1px,#0000 1px) 0 0/24px 24px,var(--pp);color:var(--tx)}.pp input,.pp textarea{color:var(--tx)}
+.bcw{display:flex;align-items:center;gap:14px;margin-top:18px}.bcw .bc{max-width:240px;height:38px}.bcw span{font:400 11px var(--m);letter-spacing:.14em}
+.fl{display:inline-block;background:var(--ink);color:var(--y);font:500 11px/20px var(--m);letter-spacing:.16em;text-transform:uppercase;padding:2px 12px}
+html.inv .fl{background:var(--y);color:var(--ink)}
+.tl{margin:16px 0 8px}
+.st{display:grid;grid-template-columns:84px 30px 1fr}
+.st .t{font:500 13px var(--m);padding-top:5px;text-align:right;padding-right:12px}
+.nd{position:relative;display:flex;justify-content:center}.nd:before{content:'';position:absolute;top:30px;bottom:0;border-left:3px dotted var(--br)}.st:last-child .nd:before{display:none}
+.n{width:30px;height:30px;border-radius:50%;background:var(--y);border:2px solid var(--ink);color:var(--ink);display:grid;place-items:center;font:500 11px var(--m);z-index:1}
+.st .c{padding:0 0 24px 16px}
+.md{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--tx);padding:0 8px;font:500 10px/20px var(--m);letter-spacing:.14em}.md .ic{width:14px;height:14px;vertical-align:0}
+.rt{font:700 21px/26px var(--s);margin:7px 0 3px}.dl{font:400 12px/20px var(--m);opacity:.85}
+.wt{font:400 10px var(--m);letter-spacing:.14em;text-transform:uppercase;color:var(--br);margin-top:8px}
+.ck{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0 20px}.ck label{display:flex;gap:10px;align-items:center;font:400 13px/24px var(--m);letter-spacing:0;text-transform:none;opacity:1}.ck input{width:16px;accent-color:var(--dy)}
+.add{display:flex;gap:10px;margin-top:12px}.add input{border:2px solid var(--br);padding:5px 10px;font-size:13px}
+.pp textarea{border:2px solid var(--br);padding:10px;font-size:14px}
+#ts{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--y);border:2px solid var(--y);padding:8px 18px;font:12px var(--m);letter-spacing:.08em;opacity:0;transition:.25s;pointer-events:none;z-index:9}#ts.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:600px){.sheet{width:calc(100% - 20px);margin-top:20px}.sheet:before{left:22px}.hd,.fo{padding-left:38px;padding-right:46px}#app{padding:28px 14px 36px 38px}.bp{padding:18px}.d{--sw:92px}.s b{font-size:32px}.stp span{display:none}.stp .on span{display:inline}.st{grid-template-columns:66px 30px 1fr}.tc{font-size:9px}.d .m{padding:16px}.lg{font-size:24px}.tape{right:-48px;width:120px}}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}html,body{background:#fff}.np,.tape,.sheet:before{display:none!important}.sheet{border:0;box-shadow:none;margin:0;width:100%;background:#fff;color:#242424}#app{padding:0}.tk{box-shadow:none;break-inside:avoid}html.inv{--paper:#fff;--pp:#FFFDF5;--tx:#242424;--br:#8A795D;--gl:#2424241c;--gh:#24242445}}
+</style><script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script></head><body>
+<div class="sheet"><i class="tape np"></i><header class="hd np"><span class="lg" data-a="go" data-v="home">WAYNOTE</span><small>Travel ticket notebook</small><button class="b sm" id="iv" data-a="inv">Invert paper</button></header><main id="app"></main><footer class="fo np" id="fo"></footer></div><div id="ts"></div>
+<script>
+const $=s=>document.querySelector(s),K='waynote.v1';
+let S=[],V='home',D=null,E=null,step=1,ER=new Set,J=null,q='',fl='all',cd=null;
+try{S=JSON.parse(localStorage.getItem(K))||[]}catch(e){}
+const sv=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const gp=(o,p)=>p.split('.').reduce((a,k)=>a?.[k],o);
+const sp=(o,p,v)=>{const k=p.split('.'),l=k.pop();k.reduce((a,x)=>a[x]??(a[x]={}),o)[l]=v};
+const h12=t=>{if(!t)return'—';const[h,m]=t.split(':');return((h%12)||12)+':'+m+(h<12?' AM':' PM')};
+const dt=d=>d?new Date(d+'T00:00').toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}):'';
+const dur=m=>{if(m==null||m<0)return'—';const h=m/60|0,r=m%60;return((h?h+'h ':'')+(r||!h?r+'m':'')).trim()};
+const ab=(d,t)=>d&&t?Date.parse(d+'T'+t)/6e4:null;
+const toast=m=>{const t=$('#ts');t.textContent=m;t.className='show';setTimeout(()=>t.className='',2000)};
+const IC={bus:'<rect x="4" y="3" width="16" height="14" rx="2"/><path d="M4 10h16M7 21v-4M17 21v-4"/><circle cx="8" cy="13.5" r="1"/><circle cx="16" cy="13.5" r="1"/>',
+metro:'<rect x="5" y="3" width="14" height="14" rx="4"/><path d="M5 11h14M8 21l2-4M16 21l-2-4"/><circle cx="9" cy="14" r="1"/><circle cx="15" cy="14" r="1"/>',
+cab:'<path d="M5 14l1.6-4.6A2 2 0 0 1 8.5 8h7a2 2 0 0 1 1.9 1.4L19 14M3 14h18v4H3zM6 18v2M18 18v2"/><circle cx="7.5" cy="16" r=".9"/><circle cx="16.5" cy="16" r=".9"/>',
+local:'<rect x="6" y="4" width="12" height="14" rx="2"/><path d="M6 11h12M9 21l1.5-3M15 21l-1.5-3M12 4V2M9 2h6"/><circle cx="9.5" cy="14.5" r=".9"/><circle cx="14.5" cy="14.5" r=".9"/>',
+tk:'<path d="M3 7h18v3a2 2 0 0 0 0 4v3H3v-3a2 2 0 0 0 0-4z"/><path d="M14 7v10" stroke-dasharray="2 2"/>'};
+const ic=t=>`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${IC[t]}</svg>`;
+const bc=s=>{let x=0,o='';for(const c of s+'WAYNOTE'){const n=c.charCodeAt(0),w=n%3+1;o+=`<rect x="${x}" width="${w}" height="30"/>`;x+=w+n%2+1}return`<svg class="bc" viewBox="0 0 ${x} 30" preserveAspectRatio="none">${o}</svg>`};
+const T={bus:['Bus','',[['from','Boarding bus stop'],['to','Destination bus stop'],['dep','Departure time','time'],['arr','Estimated arrival time','time'],['route','Bus number or route (optional)']]],
+metro:['Metro','',[['line','Metro line (e.g. Blue Line)'],['from','Boarding metro station'],['to','Destination metro station'],['dep','Departure time','time'],['arr','Estimated arrival time','time']]],
+cab:['Uber / Cab','',[['from','Pickup location'],['to','Drop location'],['dep','Pickup time','time'],['arr','Estimated arrival time','time'],['fare','Fare estimate (optional)']]],
+local:['Local Train','',[['from','Boarding station'],['to','Destination station'],['tn','Train number (optional)'],['dep','Departure time','time'],['arr','Arrival time','time']]]};
+const M=[['name','Train name (optional)'],['tn','Train number'],['from','Boarding station'],['to','Destination station'],['dd','Departure date','date'],['dt','Departure time','time'],['ad','Arrival date','date'],['at','Arrival time','time'],['coach','Coach number (optional)'],['seat','Seat / Berth number (optional)'],['pnr','PNR number (optional)'],['plat','Platform number (optional)']];
+const R=[['from','Boarding station'],['to','Destination station'],['date','Return date','date'],['dep','Departure time','time'],['arr','Arrival time (optional)','time'],['tn','Train / vehicle no. (optional)'],['seat','Seat / Berth (optional)'],['pnr','PNR number (optional)']];
+const DEF=['ID proof & tickets','Phone & charger','Power bank','Water bottle','Cash / UPI','Medicines','Snacks','Light jacket'];
+const blank=()=>({title:'',date:'',from:'',to:'',arrive:'',notes:'',status:'up',pre:[],main:{},post:[],ret:{},chk:DEF.map(t=>({t,d:0}))});
+const L=s=>({bus:['BUS'+(s.route?' · '+esc(s.route):''),[]],metro:['METRO ('+esc((s.line||'').toUpperCase())+')',[]],cab:['UBER / CAB',s.fare?['Fare ≈ '+s.fare]:[]],local:['LOCAL TRAIN'+(s.tn?' · No. '+esc(s.tn):''),[]]}[s.t]);
+const srt=l=>[...l].sort((x,y)=>(x.dep||'').localeCompare(y.dep||''));
+function stops(j){const o=[];let last=0;
+ const sg=(s,d)=>{const[lab,ex]=L(s);let a=ab(d,s.dep),b=ab(d,s.arr);
+  if(a!=null){while(a<last)a+=1440;last=a}
+  if(b!=null){while(b<last)b+=1440;last=b}
+  o.push({k:s.t,lab,rt:s.from+' → '+s.to,dep:s.dep,arr:s.arr,dl:s.t=='cab'?'Pickup':'Departure',ex,a,b})};
+ srt(j.pre).forEach(s=>sg(s,j.date));
+ const m=j.main;
+ if(m&&m.tn){const a=ab(m.dd,m.dt),b=ab(m.ad,m.at);
+  o.push({k:'local',lab:'MAIN TRAIN'+(m.name?' · '+esc(m.name):''),rt:m.from+' → '+m.to,dep:m.dt,arr:m.at,dd:m.dd,ad:m.ad,dl:'Departure',a,b,
+   ex:[['Train No',m.tn],['Coach',m.coach],['Seat / Berth',m.seat],['PNR',m.pnr],['Platform',m.plat]].filter(x=>x[1]).map(x=>x[0]+': '+x[1])});
+  last=b??a??last}
+ srt(j.post).forEach(s=>sg(s,m&&m.ad||j.date));return o}
+const gaps=s=>s.map((x,i)=>{const n=s[i+1];return n&&x.b!=null&&n.a!=null?n.a-x.b:null});
+const met=s=>{const st=s.find(x=>x.a!=null),en=[...s].reverse().find(x=>x.b!=null||x.a!=null),e=en?(en.b??en.a):null;
+ return{d:st&&e!=null?e-st.a:null,c:Math.max(0,s.length-1),w:gaps(s).reduce((t,g)=>t+(g>0?g:0),0)}};
+const sum=j=>{const s=stops(j),r=j.ret||{};return`${j.title}\n${j.from} → ${j.to} · ${dt(j.date)}\n\n`+s.map((x,i)=>`${i+1}. ${x.lab.replace(/&amp;/g,'&')}: ${x.rt} (${h12(x.dep)}${x.arr?' – '+h12(x.arr):''})`).join('\n')+(r.from?`\n\nReturn: ${r.from} → ${r.to||''} · ${dt(r.date)} ${h12(r.dep||r.time)}${r.arr?' – '+h12(r.arr):''}`:'')+(j.notes?`\n\nNotes: ${j.notes}`:'')};
+const fld=(p,l,t,o)=>`<div class="${ER.has(p)?'bad':''}"><label>${l}</label><input data-p="${p}" type="${t||'text'}" value="${esc(gp(o||D,p))}"></div>`;
+const hd=()=>'';
+const tick=j=>{const s=stops(j),m=met(s),d=new Date(j.date+'T00:00'),u=j.status=='done';
+ return`<div class="tk d nt ${u?'dn':''}"><div class="bd"><span>Journey ticket</span><span>${u?'Used':'Upcoming'}${j.ret?.from?' · Return added':''}</span></div>
+ <div class="m"><div class="rr"><div><label>From</label><b>${esc(j.from)}</b></div><i class="ln"></i><div><label>To</label><b>${esc(j.to)}</b></div></div><div class="ti">${esc(j.title)}</div>
+ <div class="ic4"><div><label>Departs</label>${h12(s.find(x=>x.dep)?.dep)}</div><div><label>Changes</label>${m.c}</div><div><label>Duration</label>${dur(m.d)}</div></div>
+ <div class="ac"><button class="b k sm" data-a="view" data-id="${j.id}">Open</button><button class="b g sm" data-a="edit" data-id="${j.id}">Edit</button><button class="b g sm" data-a="dup" data-id="${j.id}">Duplicate</button><button class="b g sm" data-a="pdf" data-id="${j.id}">PDF</button><button class="b g sm" data-a="done" data-id="${j.id}">${u?'Reopen':'Mark done'}</button><button class="b g sm" data-a="del" data-id="${j.id}">${cd==j.id?'Confirm delete?':'Delete'}</button></div></div>
+ <div class="s"><label>Admit one</label><b>${d.getDate()}</b><span>${d.toLocaleString('en-IN',{month:'short'}).toUpperCase()} ${d.getFullYear()}</span>${bc(j.id)}</div>${u?'<i class="stmp">Used</i>':''}</div>`};
+const list=()=>{const ql=q.toLowerCase(),l=S.filter(j=>(fl=='all'||(fl=='up')==(j.status!='done'))&&(!ql||(j.title+j.from+j.to).toLowerCase().includes(ql))).sort((a,b)=>a.date.localeCompare(b.date));
+ return l.length?l.map(tick).join(''):`<div class="empty">${ic('tk')}<h3>${S.length?'No tickets match':'No tickets issued yet'}</h3>${S.length?'Try a different search or filter.':'Plan your first journey and it will be printed here.'}</div>`};
+const home=()=>hd()+`<section class="hero"><h1>Every journey,<br><i>a little more organized.</i></h1><button class="b" data-a="new">+ Plan a New Journey</button></section>
+<div class="bar"><input data-s placeholder="Search saved journeys" value="${esc(q)}"><div>${[['all','All Journeys'],['up','Upcoming'],['done','Completed']].map(([v,n])=>`<button class="tab ${fl==v?'on':''}" data-a="flt" data-v="${v}">${n}</button>`).join('')}</div></div>
+<div class="sec">Collection · ${S.length} ticket${S.length==1?'':'s'}</div><div id="lst">${list()}</div>`;
+function segs(k){const l=D[k];
+ return l.map((s,i)=>`<div class="sg"><div class="sh"><span>${ic(s.t)}Segment ${String(i+1).padStart(2,'0')} · ${T[s.t][0]}</span><button class="x" data-a="rm" data-k="${k}" data-i="${i}">Remove ✕</button></div><div class="cells">${T[s.t][2].map(([a,b,t])=>fld(`${k}.${i}.${a}`,b,t)).join('')}</div>
+ ${s.t=='metro'?`<div class="lc">Line change required? <button class="tab ${s.lc?'on':''}" data-a="lc" data-k="${k}" data-i="${i}" data-v="1">Yes</button><button class="tab ${s.lc?'':'on'}" data-a="lc" data-k="${k}" data-i="${i}" data-v="0">No</button>${s.lc?`<button class="tab" data-a="add" data-k="${k}" data-t="metro" data-i="${i}">+ Add another metro line</button>`:''}</div>`:''}</div>`).join('')
+ +`<div class="hint">${l.length?'Add another segment':'Choose how you travel, or skip this step'}</div><div class="tp">${Object.keys(T).map(t=>`<button class="tc" data-a="add" data-k="${k}" data-t="${t}">${ic(t)}${T[t][0]}</button>`).join('')}</div>`}
+function wiz(){let b;
+ if(step==1)b=`<h2>Journey information</h2><p class="sub">The basics of your trip.</p><div class="cells">${fld('title','Journey name (e.g. Kolkata to Darjeeling)')}${fld('date','Travel date','date')}${fld('from','Starting location')}${fld('to','Final destination')}${fld('arrive','Desired arrival time (optional)','time')}<div class="full"><label>Personal notes (optional)</label><textarea rows="3" data-p="notes">${esc(D.notes)}</textarea></div></div>`;
+ if(step==2)b=`<h2>How are you reaching your boarding station?</h2><p class="sub">Add one or more segments.</p>${segs('pre')}`;
+ if(step==3)b=`<h2>Main journey · long-distance train</h2><p class="sub">Your big leg, with seat and PNR if you have them.</p><div class="cells">${M.map(([k,l,t])=>fld('main.'+k,l,t)).join('')}</div>`;
+ if(step==4)b=`<h2>How will you reach your final destination from the arrival station?</h2><p class="sub">Add one or more segments.</p>${segs('post')}`;
+ if(step==5)b=`<h2>Return ticket</h2><p class="sub">Optional. Note the way back so it travels with this ticket.</p><div class="cells">${R.map(([k,l,t])=>fld('ret.'+k,l,t)).join('')}</div>`;
+ return hd()+`<div class="tk wz"><div class="bd"><span>Issue ticket · ${E?'Amend':'New'}</span><span>Step ${step} / 5</span></div><div class="stp">${['Journey','Station','Train','Final','Return'].map((n,i)=>`<div class="${i+1==step?'on':''}">0${i+1}<span> ${n}</span></div>`).join('')}</div>
+ <div class="bp">${b}<div class="ft"><button class="b g" data-a="back">← ${step>1?'Back':'Cancel'}</button>${step==3?'<button class="b g" data-a="skip">Skip (no long-distance train)</button>':''}<button class="b k" data-a="${step==5?'save':'next'}">${step==5?'Issue ticket ✓':'Next →'}</button></div></div></div>`}
+function vw(){const j=S.find(x=>x.id==J);if(!j){V='home';return home()}
+ const r=j.ret??(j.ret={});if(r.time&&!r.dep)r.dep=r.time;
+ const s=stops(j),m=met(s),g=gaps(s);
+ const tl=s.length?`<div class="fl">Start · ${h12(s[0].dep)}</div><div class="tl">`+s.map((x,i)=>`<div class="st"><div class="t">${h12(x.dep)}</div><div class="nd"><i class="n">${String(i+1).padStart(2,'0')}</i></div><div class="c"><span class="md">${ic(x.k)}${x.lab}</span><div class="rt">${esc(x.rt)}</div><div class="dl">${x.dl}: ${h12(x.dep)}${x.dd?' ('+dt(x.dd)+')':''}${x.arr?'<br>Arrival: '+h12(x.arr)+(x.ad?' ('+dt(x.ad)+')':''):''}${x.ex.map(e=>'<br>'+esc(e)).join('')}</div>${g[i]>=0&&i<s.length-1?`<div class="wt">Transfer · ${dur(g[i])}</div>`:''}</div></div>`).join('')+`</div><div class="fl">End · ${esc(j.to)}</div>`:'<p>No transport segments saved yet. Use Edit to add some.</p>';
+ return hd()+`<div class="tk" id="tkt"><div class="bd"><span>WAYNOTE · Itinerary</span><span>No. ${j.id.slice(-6).toUpperCase()} · ${j.status=='done'?'Used':'Upcoming'}</span></div>
+ <div class="bp"><div class="rr big"><div><label>From</label><b>${esc(j.from)}</b></div><i class="ln"></i><div><label>To</label><b>${esc(j.to)}</b></div></div><div class="ti">${esc(j.title)}</div>
+ <div class="ic4"><div><label>Date</label>${dt(j.date)}</div><div><label>Duration</label>${dur(m.d)}</div><div><label>Changes</label>${m.c}</div><div><label>Waiting</label>${dur(m.w)}</div>${j.arrive?`<div><label>Arrive by</label>${h12(j.arrive)}</div>`:''}</div>
+ <div class="bcw">${bc(j.id)}<span>ADMIT ONE</span></div></div><div class="perf"></div>
+ <div class="pp bp">${tl}<div class="sec">Travel essentials</div><div class="ck">${j.chk.map((c,i)=>`<label><input type="checkbox" data-a="chk" data-i="${i}" ${c.d?'checked':''}>${esc(c.t)}</label>`).join('')}</div>
+ <div class="add np"><input id="ci" placeholder="Add a checklist item"><button class="b k sm" data-a="chkadd">Add</button></div>
+ <div class="sec">Personal notes</div><textarea rows="3" data-p="notes" placeholder="Anything to remember…">${esc(j.notes)}</textarea></div></div>
+ <div class="tk r nt" style="margin-top:34px"><div class="bd"><span>Return ticket</span><span>${r.from?esc(r.from)+' → '+esc(r.to||'…'):'Not added yet'}</span></div><div class="bp"><div class="cells">${R.map(([k,l,t])=>fld('ret.'+k,l,t,j)).join('')}</div></div></div>
+ <div class="ac np" style="margin-top:24px"><button class="b g sm" data-a="go" data-v="home">← All tickets</button><button class="b g sm" data-a="edit" data-id="${j.id}">Edit</button><button class="b g sm" data-a="dup" data-id="${j.id}">Duplicate</button><button class="b g sm" data-a="done" data-id="${j.id}">${j.status=='done'?'Reopen':'Mark completed'}</button><button class="b k sm" data-a="copy">Copy summary</button><button class="b k sm" data-a="pdf">Download PDF</button><button class="b g sm" data-a="print">Print</button><button class="b g sm" data-a="del" data-id="${j.id}">${cd==j.id?'Confirm delete?':'Delete'}</button></div>`}
+let inv=(()=>{try{const v=localStorage.getItem('waynote.inv');return v==null?+matchMedia('(prefers-color-scheme:dark)').matches:+v}catch(e){return 0}})();
+const foot=()=>{document.documentElement.classList.toggle('inv',!!inv);const u=S.filter(j=>j.status!='done').length;$('#fo').innerHTML=`<span>${S.length} ticket${S.length==1?'':'s'}</span><span>${u} upcoming</span><span>${S.length-u} used</span>`;$('#iv').textContent=inv?'Normal paper':'Invert paper'};
+const render=()=>{$('#app').innerHTML=V=='home'?home():V=='wiz'?wiz():vw();foot()};
+const go=v=>{V=v;cd=null;render();scrollTo(0,0)};
+function val(){ER=new Set;const r=p=>{if(!gp(D,p))ER.add(p)};
+ if(step==1)['title','date','from','to'].forEach(r);
+ if(step==2||step==4){const k=step==2?'pre':'post';D[k].forEach((s,i)=>T[s.t][2].forEach(([a,l])=>/optional/.test(l)||r(`${k}.${i}.${a}`)))}
+ if(step==3)M.forEach(([k,l])=>/optional/.test(l)||r('main.'+k));
+ return!ER.size}
+const A={
+ go:d=>go(d.v),
+ new:()=>{D=blank();E=null;step=1;ER=new Set;go('wiz')},
+ view:d=>{J=d.id;go('view')},
+ edit:d=>{D=JSON.parse(JSON.stringify(S.find(x=>x.id==d.id)));D.ret??={};E=d.id;step=1;ER=new Set;go('wiz')},
+ dup:d=>{const c=JSON.parse(JSON.stringify(S.find(x=>x.id==d.id)));c.id=uid();c.title+=' (Copy)';c.status='up';S.push(c);sv();toast('Journey duplicated');render()},
+ del:d=>{if(cd==d.id){S=S.filter(x=>x.id!=d.id);sv();cd=null;toast('Journey deleted');if(V=='view')return go('home')}else cd=d.id;render()},
+ done:d=>{const j=S.find(x=>x.id==d.id);j.status=j.status=='done'?'up':'done';sv();toast(j.status=='done'?'Marked as completed':'Moved back to upcoming');render()},
+ flt:d=>{fl=d.v;render()},
+ add:d=>{const a=D[d.k],s={t:d.t};d.i==null?a.push(s):a.splice(+d.i+1,0,s);render()},
+ rm:d=>{D[d.k].splice(+d.i,1);render()},
+ lc:d=>{const a=D[d.k],i=+d.i;a[i].lc=d.v=='1';if(a[i].lc&&a[i+1]?.t!='metro')a.splice(i+1,0,{t:'metro'});render()},
+ next:()=>{if(!val()){render();return toast('Please fill the highlighted fields')}step++;render();scrollTo(0,0)},
+ back:()=>{ER=new Set;step>1?(step--,render(),scrollTo(0,0)):go('home')},
+ skip:()=>{D.main={};ER=new Set;step++;render();scrollTo(0,0)},
+ save:()=>{if(!val()){render();return toast('Please fill the highlighted fields')}
+  if(E){D.id=E;S=S.map(x=>x.id==E?D:x)}else{D.id=uid();S.push(D)}
+  sv();J=D.id;toast('Ticket issued');go('view')},
+ copy:()=>{const t=sum(S.find(x=>x.id==J)),ok=()=>toast('Summary copied');
+  const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.append(a);a.select();try{document.execCommand('copy');ok()}catch(e){toast('Copy not available')}a.remove()};
+  navigator.clipboard?.writeText(t).then(ok,fb)||fb()},
+ inv:()=>{inv=inv?0:1;try{localStorage.setItem('waynote.inv',inv)}catch(e){}foot()},
+ pdf:d=>mkpdf(S.find(x=>x.id==(d.id||J))),
+ print:()=>{toast('Choose “Save as PDF” as the printer');setTimeout(()=>print(),500)},
+ chk:d=>{const c=S.find(x=>x.id==J).chk[+d.i];c.d=c.d?0:1;sv();render()},
+ chkadd:()=>{const v=$('#ci').value.trim();if(!v)return;S.find(x=>x.id==J).chk.push({t:v,d:0});sv();render()}
+};
+
+async function mkpdf(j){const PJ=window.jspdf;if(!PJ)return toast('PDF engine did not load');
+ const d=new PJ.jsPDF({unit:'mm',format:'a4'}),W=210,P=16,I=[36,36,36],Y=[245,197,66];
+ const cl=t=>String(t??'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/→/g,'>').replace(/≈/g,'~').replace(/[—–]/g,'-').replace(/[“”]/g,'"').replace(/[’‘]/g,"'").replace(/[^\x00-\xff]/g,'?');
+ const fc=c=>d.setFillColor(...c),tc=c=>d.setTextColor(...c),ft=(a,b,z)=>{d.setFont(a,b);d.setFontSize(z)};
+ const s=stops(j),m=met(s),g=gaps(s),r=j.ret||{};let y=0;
+ const band=()=>{fc(I);d.rect(0,0,W,12,'F');tc(Y);ft('courier','bold',8);d.text('WAYNOTE · ITINERARY',P,7.4);d.text('NO. '+j.id.slice(-6).toUpperCase(),W-P,7.4,{align:'right'});tc(I);y=22};
+ const pg=h=>{if(y+h>284){d.addPage();band()}};
+ band();fc(Y);d.rect(0,12,W,58,'F');tc(I);
+ const A_=cl(j.from).toUpperCase(),B_=cl(j.to).toUpperCase(),z=Math.min(26,Math.max(12,300/Math.max(A_.length,B_.length)));
+ ft('courier','normal',7);d.text('FROM',P,24);d.text('TO',W-P,24,{align:'right'});
+ ft('times','bold',z);const wa=d.getTextWidth(A_),wb=d.getTextWidth(B_);d.text(A_,P,36);d.text(B_,W-P,36,{align:'right'});
+ d.setDrawColor(...I);if(P+wa+6<W-P-wb-6){d.setLineWidth(.5);d.setLineDashPattern([1,1.5],0);d.line(P+wa+4,34,W-P-wb-4,34);d.setLineDashPattern([],0)}
+ ft('times','italic',12);d.text(cl(j.title),P,46);d.setLineWidth(.3);d.line(P,52,W-P,52);
+ const mt=[['DATE',dt(j.date)],['DURATION',dur(m.d)],['CHANGES',m.c],['WAITING',dur(m.w)]];if(j.arrive)mt.push(['ARRIVE BY',h12(j.arrive)]);
+ mt.forEach(([p,v],i)=>{const x=P+i*(W-2*P)/mt.length;ft('courier','normal',6.5);d.text(p,x,58);ft('courier','bold',10);d.text(cl(v),x,64)});
+ d.setLineDashPattern([2,2],0);d.line(0,70,W,70);d.setLineDashPattern([],0);y=82;
+ const fl=t=>{pg(12);ft('courier','bold',8);const w=d.getTextWidth(t)+6;fc(I);d.rect(P,y-4.4,w,6.4,'F');tc(Y);d.text(t,P+3,y);tc(I);y+=10};
+ if(s.length){fl('START · '+h12(s[0].dep));
+  s.forEach((x,i)=>{ft('times','bold',14);const rl=d.splitTextToSize(cl(x.rt),W-2*P-38);
+   const L=[x.dl+': '+h12(x.dep)+(x.dd?' ('+dt(x.dd)+')':'')];if(x.arr)L.push('Arrival: '+h12(x.arr)+(x.ad?' ('+dt(x.ad)+')':''));L.push(...x.ex);if(g[i]>=0&&i<s.length-1)L.push('> '+dur(g[i])+' to change');
+   const h=14+rl.length*6+L.length*4.2;pg(h);const cx=P+30;
+   tc(I);ft('courier','bold',9);d.text(cl(h12(x.dep)),P+22,y+4,{align:'right'});
+   d.setDrawColor(...I);if(i<s.length-1){d.setLineWidth(.3);d.setLineDashPattern([.8,1.2],0);d.line(cx,y+6.4,cx,y+h+3);d.setLineDashPattern([],0)}
+   d.setLineWidth(.5);fc(Y);d.circle(cx,y+3,3.2,'FD');tc(I);ft('courier','bold',6.5);d.text(String(i+1).padStart(2,'0'),cx,y+4.1,{align:'center'});
+   ft('courier','bold',7.5);d.text(cl(x.lab),P+38,y+2.8);ft('times','bold',14);d.text(rl,P+38,y+9.5);
+   ft('courier','normal',8);L.forEach((l,n)=>d.text(cl(l),P+38,y+10+rl.length*6+n*4.2));y+=h+3});
+  fl('END · '+B_)}else{ft('helvetica','normal',10);d.text('No transport segments saved.',P,y);y+=10}
+ y+=4;pg(48);fc(Y);d.rect(P,y,W-2*P,40,'F');fc(I);d.rect(P,y,W-2*P,7,'F');tc(Y);ft('courier','bold',8);d.text('RETURN TICKET',P+3,y+4.8);tc(I);
+ [['FROM',r.from],['TO',r.to],['DATE',dt(r.date)],['DEPARTS',r.dep?h12(r.dep):''],['ARRIVES',r.arr?h12(r.arr):''],['TRAIN / VEHICLE',r.tn],['SEAT / BERTH',r.seat],['PNR',r.pnr]].forEach(([p,v],i)=>{
+  const x=P+3+(i%4)*(W-2*P-6)/4,yy=y+15+(i>3?13:0);ft('courier','normal',6.5);d.text(p,x,yy);ft('courier','bold',9);d.text(cl(v||'-'),x,yy+5,{maxWidth:40})});
+ y+=50;pg(20);tc(I);ft('courier','bold',8);d.text('TRAVEL ESSENTIALS',P,y);y+=7;
+ j.chk.forEach((c,i)=>{const x=P+(i%2)*(W-2*P)/2;if(i%2==0)pg(8);d.setDrawColor(...I);d.setLineWidth(.3);d.rect(x,y-3,3.4,3.4);
+  if(c.d){d.line(x+.6,y-1.3,x+1.5,y-.3);d.line(x+1.5,y-.3,x+3,y-2.7)}ft('courier','normal',9);d.text(cl(c.t),x+6,y);if(i%2)y+=6});
+ if(j.chk.length%2)y+=6;
+ if(j.notes){y+=4;pg(16);ft('courier','bold',8);d.text('PERSONAL NOTES',P,y);y+=6;ft('helvetica','normal',10);d.splitTextToSize(cl(j.notes),W-2*P).forEach(l=>{pg(6);d.text(l,P,y);y+=5})}
+ for(let n=1;n<=d.getNumberOfPages();n++){d.setPage(n);for(let k=0;k<36;k++)for(let q=0;q<2;q++){fc((k+q)%2?Y:I);d.rect(k*5.84,291+q*3,5.84,3,'F')}}
+ const nm='WAYNOTE-'+(cl(j.title)||'journey').replace(/[^\w\- ]+/g,'').trim().replace(/\s+/g,'-')+'.pdf';
+ try{const dl=await window.claude?.use('downloads');if(!dl)throw 0;await dl.save({filename:nm,data:d.output('blob')});toast('PDF ready')}
+ catch(e){if(e&&e.code=='declined')return;if(V!='view'){J=j.id;go('view')}toast('Choose “Save as PDF” in the print dialog');setTimeout(()=>print(),500)}}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&A[b.dataset.a])A[b.dataset.a](b.dataset)});
+document.addEventListener('input',e=>{const t=e.target;
+ if(t.dataset.s!=null){q=t.value;$('#lst').innerHTML=list();return}
+ const p=t.dataset.p;if(!p)return;const o=V=='wiz'?D:S.find(x=>x.id==J);sp(o,p,t.value);if(V!='wiz')sv();
+ if(ER.delete(p))t.closest('div')?.classList.remove('bad')});
+render();
+</script></body></html>
